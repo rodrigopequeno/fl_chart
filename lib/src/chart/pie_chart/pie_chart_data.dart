@@ -30,6 +30,12 @@ class PieChartData extends BaseChartData with EquatableMixin {
   /// Handles touch behaviors and responses.
   final PieTouchData pieTouchData;
 
+  /// Defines text of showing title at the middle of pie chart.
+  final String centerText;
+
+  /// Defines style of showing title of pie chart.
+  final TextStyle centerTextStyle;
+
   /// We hold this value to determine weight of each [PieChartSectionData.value].
   double get sumValue =>
       sections.map((data) => data.value).reduce((first, second) => first + second);
@@ -53,12 +59,16 @@ class PieChartData extends BaseChartData with EquatableMixin {
     double? startDegreeOffset,
     PieTouchData? pieTouchData,
     FlBorderData? borderData,
+    String? centerText,
+    TextStyle? centerTextStyle,
   })  : sections = sections ?? const [],
         centerSpaceRadius = centerSpaceRadius ?? double.infinity,
         centerSpaceColor = centerSpaceColor ?? Colors.transparent,
         sectionsSpace = sectionsSpace ?? 2,
         startDegreeOffset = startDegreeOffset ?? 0,
         pieTouchData = pieTouchData ?? PieTouchData(),
+        centerText = centerText ?? '',
+        centerTextStyle = centerTextStyle ?? TextStyle(),
         super(
           borderData: borderData ?? FlBorderData(show: false),
           touchData: pieTouchData ?? PieTouchData(),
@@ -74,6 +84,8 @@ class PieChartData extends BaseChartData with EquatableMixin {
     double? startDegreeOffset,
     PieTouchData? pieTouchData,
     FlBorderData? borderData,
+    String? centerText,
+    TextStyle? centerTextStyle,
   }) {
     return PieChartData(
       sections: sections ?? this.sections,
@@ -83,6 +95,8 @@ class PieChartData extends BaseChartData with EquatableMixin {
       startDegreeOffset: startDegreeOffset ?? this.startDegreeOffset,
       pieTouchData: pieTouchData ?? this.pieTouchData,
       borderData: borderData ?? this.borderData,
+      centerText: centerText ?? this.centerText,
+      centerTextStyle: centerTextStyle ?? this.centerTextStyle,
     );
   }
 
@@ -98,6 +112,8 @@ class PieChartData extends BaseChartData with EquatableMixin {
         sectionsSpace: lerpDouble(a.sectionsSpace, b.sectionsSpace, t),
         startDegreeOffset: lerpDouble(a.startDegreeOffset, b.startDegreeOffset, t),
         sections: lerpPieChartSectionDataList(a.sections, b.sections, t),
+        centerTextStyle: TextStyle.lerp(a.centerTextStyle, b.centerTextStyle, t),
+        centerText: b.centerText,
       );
     } else {
       throw Exception('Illegal State');
@@ -114,6 +130,8 @@ class PieChartData extends BaseChartData with EquatableMixin {
         sectionsSpace,
         startDegreeOffset,
         borderData,
+        centerTextStyle,
+        centerText
       ];
 }
 

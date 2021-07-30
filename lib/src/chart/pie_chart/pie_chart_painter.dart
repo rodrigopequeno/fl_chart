@@ -66,6 +66,24 @@ class PieChartPainter extends BaseChartPainter<PieChartData> {
 
     _centerSpacePaint.color = data.centerSpaceColor;
     canvasWrapper.drawCircle(Offset(centerX, centerY), data.centerSpaceRadius, _centerSpacePaint);
+
+    if (data.centerText.isNotEmpty) {
+      final span = TextSpan(
+        text: data.centerText,
+        style: data.centerTextStyle,
+      );
+      final tp = TextPainter(
+          text: span,
+          textAlign: TextAlign.center,
+          textDirection: TextDirection.ltr,
+          textScaleFactor: holder.textScale);
+
+      tp.layout();
+      final centerXWithText = (viewSize.width - tp.width) / 2;
+      final centerYWithText = (viewSize.height - tp.height) / 2;
+      final offset = Offset(centerXWithText, centerYWithText);
+      canvasWrapper.drawText(tp, offset);
+    }
   }
 
   void _drawSections(
